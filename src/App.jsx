@@ -13,6 +13,7 @@ function App() {
   const headingRef = useRef(null)
   const growingSpan = useRef(null)
   const circleRef = useRef(null)
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
 
   // locomotive scroll
   useEffect(() => {
@@ -115,9 +116,22 @@ function App() {
     };
   }, []);
 
+  // checks if the screen is desktop or mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
-      <span ref={growingSpan} className='growing block fixed top-[-10%] left-[-10%] w-5 h-5 rounded-full'>
+      <span ref={growingSpan} className='growing block fixed top-[-10%] left-[-10%] w-3 md:w-5 h-3 md:h-5 rounded-full'>
       </span>
 
       <div className='w-full min-h-screen  relative font-[Arial]'>
@@ -127,10 +141,10 @@ function App() {
 
         <div className='w-full h-screen relative z-[1]'>
 
-          <nav className=" w-full p-8 z-50 ">
-            <div className="flex justify-between">
-              <h2 className='text-2xl'>thirtysixstudios.</h2>
-              <div className='flex gap-10'>
+          <nav className="w-full p-4 md:p-8 z-50">
+            <div className="flex flex-col md:flex-row md:justify-between items-center gap-10 md:gap-0">
+              <h2 className='text-3xl md:text-2xl '>Thirty-six-studios.</h2>
+              <div className='flex gap-6 md:gap-10 text-sm md:text-md'>
                 {["Design", "Development", "Experience"].map((link) => (
                   <a key={link} className="text-md hover:opacity-80 transition-opacity cursor-pointer">
                     {link}
@@ -140,29 +154,28 @@ function App() {
             </div>
           </nav>
 
-          <div className="textcontainer  w-full pt-[3%] px-[20%] ">
-            <div className="text w-[40%]">
-              <h3 className='text-2xl leading-[1.3]'>
+          <div className="textcontainer w-full lg:pt-[3%] mt-[30%] px-[5%] md:px-[20%]">
+            <div className="text w-full md:w-[40%]">
+              <h3 className='text-xl md:text-2xl leading-[1.3]'>
                 At Thirtysixstudio, we build immersive digital experiences for brands with a purpose.
               </h3>
             </div>
-            <p className='text-md mt-4 w-[60%] font-light'>
-              We’re a boutique production studio focused on design, motion, and creative technology, constantly reimagining what digital craft can do for present-time ads and campaigns.
+            <p className='text-sm md:text-md mt-4 w-full md:w-[60%] font-light'>
+              We're a boutique production studio focused on design, motion, and creative technology, constantly reimagining what digital craft can do for present-time ads and campaigns.
             </p>
-            <p className='text-md mt-4 w-[10%] font-light'>
+            <p className='text-sm md:text-md mt-4 w-[20%] md:w-[10%] font-light'>
               Scroll
             </p>
           </div>
 
-          <div className="overflow-x-hidden w-full ">
-            <div className="w-full absolute bottom-0 left-0 pl-4">
-
-              <h1 ref={headingRef} className='text-[14rem] tracking-tight leading-none cursor-none'>Thirtysixstudios</h1>
-
-              <div className="circle " ref={circleRef}>
-                <span className="text-xs">Click</span>
+          <div className="overflow-x-hidden w-full">
+            <div className="w-full absolute bottom-0 left-0 pl-2 md:pl-4">
+              <h1 ref={headingRef} className='text-[4rem] md:text-[14rem] tracking-tight leading-none cursor-none'>
+                Thirtysixstudios
+              </h1>
+              <div className="circle" ref={circleRef}>
+                <span className="text-[10px] md:text-xs">Click</span>
               </div>
-
             </div>
           </div>
 
@@ -174,20 +187,15 @@ function App() {
           <Canvas details={canvasdets} />
         ))}
 
-        <div className="textcontainer w-full flex justify-between items-center px-24 pt-10">
+        <div className="textcontainer w-full flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-24 pt-10">
+          <div className='flex flex-col items-center w-full md:w-[70%] gap-5'>
+            <h1 className='text-lg md:text-xl self-start border-b-2 border-white/20 pb-2'>what we do</h1>
+            <img className='w-full md:w-[70%]' src="https://directus.funkhaus.io/assets/b3b5697d-95a0-4af5-ba59-b1d423411b1c?withoutEnlargement=true&fit=outside&width=1400&height=1400" alt="" />
+          </div>
 
-        <div className='flex flex-col  items-center w-[70%] gap-5'>
-          <h1 className='text-xl self-start border-b-2 border-white/20 pb-2'>what we do</h1>
-          <img className='w-[70%]' src="https://directus.funkhaus.io/assets/b3b5697d-95a0-4af5-ba59-b1d423411b1c?withoutEnlargement=true&fit=outside&width=1400&height=1400" alt="" />
-        </div>
-
-          <p className='font-light w-[40%] text-3xl tracking-loose z-[1]'>
+          <p className='font-light w-full md:w-[40%] text-xl md:text-3xl tracking-loose z-[1] mt-8 md:mt-0'>
             We aim to revolutionize digital production in the advertising space, bringing your ideas to life.
           </p>
-
-          <div className="imagecontainer ">
-            
-          </div>
         </div>
       </div>
     </>
