@@ -3,7 +3,7 @@ import Canvas from './Canvas'
 import data from './data'
 import LocomotiveScroll from 'locomotive-scroll';
 import { useEffect, useState, useRef } from 'react';
-import { useGSAP } from '@gsap/react';
+// import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import Loader from './Loader';
 
