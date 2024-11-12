@@ -5,6 +5,7 @@ import LocomotiveScroll from 'locomotive-scroll';
 import { useEffect, useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import Loader from './Loader';
 
 
 function App() {
@@ -13,12 +14,33 @@ function App() {
   const headingRef = useRef(null)
   const growingSpan = useRef(null)
   const circleRef = useRef(null)
+  const contentRef = useRef(null)
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [isLoading, setIsLoading] = useState(true)
 
   // locomotive scroll
   useEffect(() => {
     const locomotiveScroll = new LocomotiveScroll();
   }, [])
+
+  useEffect(() => {
+    // Set initial state immediately
+    gsap.set(contentRef.current, {
+      opacity: 0,
+      y:-100,
+    })
+
+    if (!isLoading) {
+      gsap.to(contentRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.3,
+        ease: "power2.out",
+        clearProps: "all" // Cleans up GSAP properties after animation
+      })
+    }
+  }, [isLoading])
 
   // changes the color and canvas state
   useEffect(() => {
@@ -129,12 +151,12 @@ function App() {
     };
   }, []);
 
+  
+
   return (
     <>
-      <span ref={growingSpan} className='growing block fixed top-[-10%] left-[-10%] w-3 md:w-5 h-3 md:h-5 rounded-full'>
-      </span>
-
-      <div className='w-full min-h-screen  relative font-[Arial]'>
+      {isLoading && <Loader setIsLoading={setIsLoading} />}
+      <div ref={contentRef} className='w-full min-h-screen relative font-[Arial]'>
         {showCanvas && data[0].map((canvasdets, index) => (
           <Canvas details={canvasdets} />
         ))}
@@ -154,7 +176,7 @@ function App() {
             </div>
           </nav>
 
-          <div className="textcontainer w-full lg:pt-[3%] mt-[30%] px-[5%] md:px-[20%]">
+          <div className="textcontainer w-full lg:pt-[3%] lg:mt-0 mt-[30%] px-[5%] md:px-[20%]">
             <div className="text w-full md:w-[40%]">
               <h3 className='text-xl md:text-2xl leading-[1.3]'>
                 At Thirtysixstudio, we build immersive digital experiences for brands with a purpose.
